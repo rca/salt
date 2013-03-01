@@ -229,6 +229,15 @@ def _run(cmd,
               'stderr': stderr}
 
     if runas:
+        # some called programs will assume the variables below correspond
+        # to the user that is running the command.
+        uinfo = pwd.getpwnam(runas)
+        run_env.update({
+            'HOME': uinfo.pw_dir,
+            'SHELL': uinfo.pw_shell,
+            'USER': uinfo.pw_name,
+        })
+
         kwargs['preexec_fn'] = functools.partial(_chugid, runas)
 
     if not salt.utils.is_windows():
