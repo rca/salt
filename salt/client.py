@@ -750,7 +750,7 @@ class LocalClient(object):
         wtag = os.path.join(jid_dir, 'wtag*')
         # Check to see if the jid is real, if not return the empty dict
         if not os.path.isdir(jid_dir):
-            return ret
+            return
         # Wait for the hosts to check in
         while True:
             raw = self.event.get_event(timeout, jid)
@@ -780,7 +780,6 @@ class LocalClient(object):
                                 yield({minion: {'out': 'no_return', 'ret': 'Minion did not return'}})
                 break
             time.sleep(0.01)
-        return ret
 
     def get_cli_event_returns(
             self,

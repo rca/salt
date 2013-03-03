@@ -86,11 +86,13 @@ def run_tests(TestCase):
     Function uses optparse to set up test environment
     '''
     from saltunittest import TestLoader, TextTestRunner
+
     opts = parse_opts()
+
     loader = TestLoader()
     tests = loader.loadTestsFromTestCase(TestCase)
     print('Setting up Salt daemons to execute tests')
-    with TestDaemon(clean=opts.clean):
+    with TestDaemon(opts=opts):
         runner = TextTestRunner(verbosity=opts.verbosity).run(tests)
         sys.exit(runner.wasSuccessful())
 
@@ -117,6 +119,9 @@ def parse_opts():
             action='store_false',
             help=('Don\'t clean up test environment before and after '
                   'integration testing (speed up test process)'))
+    parser.add_option('--no-colors',
+            action='store_false',
+            help='Don\'t use color')
     options, _ = parser.parse_args()
     return options
 
