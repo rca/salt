@@ -809,6 +809,7 @@ class AESFuncs(object):
                     self.opts['hash_type'],
                     load.get('nocache', False))
         log.info('Got return from {id} for job {jid}'.format(**load))
+        log.debug('  {}'.format(load))
         self.event.fire_event(load, load['jid'])
         if self.opts['master_ext_job_cache']:
             fstr = '{0}.returner'.format(self.opts['master_ext_job_cache'])
